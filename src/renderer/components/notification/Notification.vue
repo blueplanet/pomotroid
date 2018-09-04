@@ -3,7 +3,7 @@
 
 <script>
 import { EventBus } from '@/utils/event-bus'
-const path = require('path')
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'Notification',
@@ -16,11 +16,8 @@ export default {
 
   methods: {
     callNotification (opts) {
-      this.notification = new Notification(opts.title, {
-        body: opts.body,
-        icon: path.join('static', 'icon.png'),
-        silent: true
-      })
+      ipcRenderer.send('show-alert', opts.body)
+      console.log('callNotification!!!!!!!!!!!!!!!!!!!')
     },
     notifyLongBreak () {
       this.callNotification({

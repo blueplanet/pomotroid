@@ -2,7 +2,7 @@
 
 import { createLocalStore } from './../renderer/utils/local-store'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 
 const localStore = createLocalStore()
 
@@ -63,6 +63,19 @@ ipcMain.on('window-close', (event, arg) => {
 
 ipcMain.on('window-minimize', (event, arg) => {
   mainWindow.minimize()
+})
+
+ipcMain.on('show-alert', (event, message) => {
+  mainWindow.focus()
+
+  const options = {
+    type: 'info',
+    title: 'Info',
+    message: message,
+    buttons: ['ok']
+  }
+
+  dialog.showMessageBox(options)
 })
 
 /**
